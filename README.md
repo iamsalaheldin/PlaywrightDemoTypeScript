@@ -1,121 +1,104 @@
-## Playwright Demo TypeScript
+# 🎭 Playwright E2E Test Suite
 
-End‑to‑end UI test suite using Playwright Test, TypeScript, and the Page Object Model (POM). HTML and Allure reports are supported out of the box.
+> Modern end-to-end testing with TypeScript, Page Object Model, and comprehensive reporting
 
-### Project Design
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)
+![Playwright](https://img.shields.io/badge/Playwright-2EAD33?style=flat&logo=playwright&logoColor=white)
 
-- **Test runner**: `@playwright/test` with a single project: Chromium.
-- **Base URL**: Defined in `playwright.config.ts` (`https://www.automationexercise.com/`).
-- **Page Object Model**: Central `PageObjectManager` constructs and exposes strongly‑typed page objects (e.g., `HomePage`, `SignUpAndLoginPage`, `ProductsPage`).
-- **Fixtures**: `fixtures/TestSetup.ts` extends Playwright's base `test` and provides a `pageObjectManager` fixture. Navigation to the home page happens in this fixture.
-- **Test data**: JSON under `testData/` and imported as default JSON modules in tests.
-- **Reporting**: Playwright HTML and Allure are configured in `playwright.config.ts`.
+## ✨ Features
 
-### Project Structure
+- 🎯 **Page Object Model** - Clean, maintainable test structure
+- 📊 **Dual Reporting** - HTML & Allure reports
+- 🔧 **TypeScript** - Full type safety
+- 🎬 **Rich Artifacts** - Screenshots, videos, traces
+- 🚀 **CI Ready** - Configured for parallel execution
+
+## 🏗️ Project Structure
 
 ```
-.
-├─ fixtures/
-│  └─ TestSetup.ts                # Provides pageObjectManager fixture
-├─ pages/                         # POM classes + PageObjectManager
-│  ├─ PageObjectManager.ts
-│  ├─ HomePage.ts
-│  ├─ SignUpAndLoginPage.ts
-│  ├─ AccountCreationPage.ts
-│  ├─ AccountCreatedPage.ts
-│  ├─ ProductsPage.ts
-│  ├─ ProductViewPage.ts
-│  ├─ CartPage.ts
-│  ├─ CheckOutPage.ts
-│  ├─ PaymentPage.ts
-│  └─ OrderCompletedPage.ts
-├─ tests/
-│  ├─ E2ETest.spec.ts             # Primary end‑to‑end flow
-│  └─ example.spec.ts
-├─ testData/                      # JSON test data files
-│  ├─ signUpPageTestData.json
-│  ├─ AccountCreationPageTestData.json
-│  └─ PaymentTestData.json
-├─ playwright.config.ts           # Runner, reporters, devices, timeouts
-├─ package.json
-└─ README.md
+📦 PlaywrightDemoTypeScript
+├── 🧪 tests/
+│   └── E2ETest.spec.ts          # Complete user journey test
+├── 📄 pages/                    # Page Object Model
+│   ├── PageObjectManager.ts     # Central page manager
+│   ├── HomePage.ts
+│   ├── SignUpAndLoginPage.ts
+│   └── ... (other pages)
+├── 🔧 fixtures/
+│   └── TestSetup.ts             # Custom test fixtures
+├── 📋 testData/
+│   ├── signUpPageTestData.json
+│   └── ... (other test data)
+└── ⚙️ playwright.config.ts      # Test configuration
 ```
 
-### Setup
+## 🚀 Quick Start
 
+### 1️⃣ Install Dependencies
 ```bash
-# Install dependencies
 npm ci
-
-# Install Playwright browsers
 npx playwright install
 ```
 
-### Running Tests
-
+### 2️⃣ Run Tests
 ```bash
-# Run all tests (Chromium, parallel per config)
+# Run all tests
 npx playwright test
 
-# Run a specific test file
-npx playwright test tests/E2ETest.spec.ts
-
-# Headed mode
-npx playwright test --headed
-
-# UI mode (test explorer)
+# Run with UI
 npx playwright test --ui
+
+# Run in headed mode
+npx playwright test --headed
 ```
 
-### Reports and Artifacts
-
-- **HTML Report** (built‑in):
-
+### 3️⃣ View Reports
 ```bash
-# After a test run
+# HTML Report (built-in)
 npx playwright show-report
-```
 
-- **Allure Report**:
-  - The `allure-playwright` reporter is enabled; test runs produce `./allure-results`.
-  - To generate/open a report you need the Allure CLI. Either:
-    - Use NPX on demand:
-
-```bash
+# Allure Report
 npx allure-commandline generate ./allure-results --clean -o ./allure-report
 npx allure-commandline open ./allure-report
 ```
 
-    - Or install locally (optional):
+## 📊 Test Coverage
 
-```bash
-npm i -D allure-commandline
-npx allure generate ./allure-results --clean -o ./allure-report
-npx allure open ./allure-report
-```
+Our E2E test covers the complete user journey:
 
-- **Traces / Screenshots / Videos**:
-  - Configured in `playwright.config.ts` (`trace: on-first-retry`, `screenshot: on`, `video: on`).
-  - Open a trace:
+- ✅ User registration and account creation
+- ✅ Product browsing and selection  
+- ✅ Shopping cart management
+- ✅ Checkout and payment process
+- ✅ Order confirmation
 
-```bash
-npx playwright show-trace path/to/trace.zip
-```
+## 🛠️ Configuration
 
-### Test Coverage
+| Setting | Value |
+|---------|-------|
+| **Target Site** | `https://www.automationexercise.com/` |
+| **Browser** | Chromium (Desktop Chrome) |
+| **Execution** | Parallel |
+| **Artifacts** | Screenshots, Videos, Traces |
 
-- **Functional coverage (what is exercised):** The `E2ETest` walks through account signup, account creation, navigating products, adding to cart, checkout, payment, and order completion using POM flows. Expand scenarios by adding more `*.spec.ts` files under `tests/` and reusing page objects.
-- **Code coverage (lines/statements):** Classic line coverage of the target website is not applicable for an external AUT. If you need JS app coverage for your own app, instrument the app build and integrate with coverage tools (e.g., `nyc`/Istanbul) or a custom coverage setup. This repo focuses on functional E2E coverage with rich Playwright/Allure reporting.
+## 💡 Tips
 
-### Tips
+- 📁 JSON test data uses default imports: `import data from "./file.json"`
+- 🎯 Always use `pageObjectManager` for page interactions
+- 🔍 Check traces/videos in HTML reports for debugging
 
-- Import JSON data as a default import in TypeScript tests (e.g., `import data from "../testData/file.json"`).
-- Prefer interacting through page objects via `pageObjectManager` to keep tests readable and maintainable.
+## 🔧 Troubleshooting
 
-### Troubleshooting
+| Issue | Solution |
+|-------|---------|
+| Missing browsers | `npx playwright install` |
+| Allure not found | `npm i -D allure-commandline` |
+| Flaky tests | Check artifacts in HTML report |
 
-- If Allure commands are not found, install the CLI locally (`npm i -D allure-commandline`) or use `npx allure-commandline`.
-- If browsers are missing, run `npx playwright install`.
-- For flaky tests, inspect traces/videos from the HTML report.
+---
+
+<div align="center">
+  <strong>Happy Testing! 🎭</strong>
+</div>
 
 
